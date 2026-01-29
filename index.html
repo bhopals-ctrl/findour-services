@@ -1,217 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
 
-  <title>Findour Services Private Limited | IT, Cloud, AI & SaaS Solutions</title>
+  <!-- SEO TITLE -->
+  <title>Findour Services | Software, Cloud, AI & Digital Solutions</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- SEO META -->
-  <meta name="description" content="Findour Services Private Limited provides software development, cloud, AI, SaaS, EdTech, and digital transformation services for startups and enterprises in India.">
-  <meta name="keywords" content="IT services company India, software development services, cloud AI solutions, SaaS development company, EdTech platforms, digital transformation, startup technology partner">
-  <meta name="author" content="Findour Services Private Limited">
+  <meta name="description" content="Findour Services provides software development, cloud, AI, SaaS, EdTech and digital innovation solutions for startups and enterprises.">
+  <meta name="keywords" content="Findour Services, IT services, software development, cloud AI, SaaS, EdTech, digital solutions">
+  <meta name="author" content="Findour Services">
 
-  <!-- SEO SCHEMA -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Findour Services Private Limited",
-    "url": "https://findour-services.com",
-    "email": "bhopalsingh@findour-services.com",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+91-8960482735",
-      "contactType": "customer support"
-    },
-    "sameAs": []
-  }
+  <!-- SOCIAL PREVIEW (SEO) -->
+  <meta property="og:title" content="Findour Services | Digital & IT Solutions">
+  <meta property="og:description" content="Building scalable digital businesses through software, cloud, AI and innovation.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://findour-services.com">
+
+  <!-- FAVICON -->
+  <link rel="icon" type="image/png" href="favicon-findour-services-rounded.png">
+
+  <!-- GOOGLE ANALYTICS (GA4) -->
+  <!-- 🔴 Replace G-XXXXXXXXXX with your real GA ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GBDRDKCGMG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-GBDRDKCGMG');
   </script>
 
   <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: #ffffff;
-      color: #1a1a1a;
-      line-height: 1.7;
-      scroll-behavior: smooth;
-    }
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;color:#222;line-height:1.6}
+    nav{background:#0b1f3a;padding:12px 20px}
+    nav a{color:#fff;margin-right:20px;text-decoration:none;font-weight:bold}
+    nav a:hover{text-decoration:underline}
 
-    /* HERO */
-    header {
-      background: linear-gradient(135deg, #0b1f3a, #123b6d);
-      color: #fff;
-      padding: 100px 20px;
-      text-align: center;
-      animation: fadeIn 1.2s ease;
-    }
+    header{background:linear-gradient(135deg,#0b1f3a,#123b6d);color:#fff;padding:90px 20px;text-align:center}
+    header h1{font-size:38px;margin-bottom:10px}
 
-    header h1 {
-      font-size: 44px;
-      margin-bottom: 10px;
-    }
+    .cta-btn{display:inline-block;margin-top:25px;background:#25d366;color:#000;padding:12px 26px;
+      text-decoration:none;font-weight:bold;border-radius:6px}
 
-    header p {
-      font-size: 18px;
-      opacity: 0.95;
-    }
+    section{max-width:1100px;margin:auto;padding:55px 20px}
+    h2{color:#0b1f3a}
 
-    section {
-      max-width: 1100px;
-      margin: auto;
-      padding: 70px 20px;
-      animation: slideUp 1s ease;
-    }
+    .services{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+    .card{background:#fafafa;border:1px solid #ddd;padding:22px;border-radius:8px}
 
-    h2 {
-      color: #0b1f3a;
-      margin-bottom: 20px;
-      font-size: 32px;
-    }
+    #contact{background:#f4f6f8;border-radius:8px}
 
-    /* SERVICES */
-    .services {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 25px;
-    }
+    form input,form textarea{width:100%;padding:12px;margin-bottom:12px;border-radius:5px;border:1px solid #ccc}
+    form button{background:#0b1f3a;color:#fff;padding:12px 26px;border:none;border-radius:6px}
 
-    .card {
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 28px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+    .social-links a{margin-right:15px;font-weight:bold;color:#123b6d;text-decoration:none}
 
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-    }
+    footer{background:#f1f1f1;text-align:center;padding:20px;font-size:14px}
 
-    /* CONTACT */
-    .contact {
-      background: #f6f8fb;
-      border-radius: 12px;
-      padding: 40px;
-    }
-
-    form input, form textarea {
-      width: 100%;
-      padding: 14px;
-      margin-bottom: 15px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 15px;
-    }
-
-    form button {
-      background: #0b1f3a;
-      color: #fff;
-      border: none;
-      padding: 14px 30px;
-      font-size: 16px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    form button:hover {
-      background: #123b6d;
-    }
-
-    /* CTA */
-    .cta {
-      background: linear-gradient(135deg, #0b1f3a, #123b6d);
-      color: #fff;
-      text-align: center;
-      padding: 70px 20px;
-    }
-
-    .cta a {
-      background: #25d366;
-      color: #000;
-      padding: 14px 28px;
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: bold;
-      display: inline-block;
-      margin-top: 15px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 25px;
-      background: #eef1f5;
-      font-size: 14px;
-    }
-
-    /* ANIMATIONS */
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(40px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+    @media(max-width:600px){
+      header h1{font-size:28px}
+      nav{text-align:center}
+      nav a{display:inline-block;margin:8px}
     }
   </style>
 </head>
 
 <body>
 
-<header>
-  <h1>Building Scalable Digital Businesses</h1>
+<!-- TOP NAVIGATION -->
+<nav>
+  <a href="#home">Home</a>
+  <a href="#services">Services</a>
+  <a href="#contact">Contact</a>
+  <a href="privacy.html">Privacy</a>
+</nav>
+
+<!-- HERO -->
+<header id="home">
+  <h1>Findour Services</h1>
+  <p><strong>Building Scalable Digital Businesses</strong></p>
   <p>Software • Cloud • AI • EdTech • SaaS • Digital Innovation</p>
+
+  <a class="cta-btn"
+     href="https://wa.me/918960482735?text=Hello%20I%20am%20interested%20in%20your%20services"
+     target="_blank">💬 Chat with us on WhatsApp</a>
 </header>
 
 <section>
   <h2>About Us</h2>
   <p>
-    Findour Services Private Limited is a technology-driven company enabling startups,
-    enterprises, institutions, and investors to build scalable, future-ready digital
-    businesses through software engineering, cloud platforms, AI, and innovation.
+    Findour Services is a technology-focused consulting company helping startups and
+    enterprises build scalable and future-ready digital businesses through software,
+    cloud platforms, AI, SaaS, and innovation.
   </p>
 </section>
 
-<section>
+<section id="services">
   <h2>Our Services</h2>
   <div class="services">
-    <div class="card"><h3>IT & Software Development</h3><p>Custom software, IT consulting, enterprise systems, and emerging technologies.</p></div>
-    <div class="card"><h3>Cloud, AI & Platforms</h3><p>Cloud migration, AI analytics, cybersecurity, automation, and digital operations.</p></div>
-    <div class="card"><h3>EdTech & Skill Development</h3><p>E-learning platforms, professional training, and certification solutions.</p></div>
-    <div class="card"><h3>SaaS & E-Commerce</h3><p>SaaS products, online marketplaces, and scalable digital business models.</p></div>
-    <div class="card"><h3>Tech-Enabled Retail</h3><p>Omni-channel retail solutions connecting online and offline commerce.</p></div>
-    <div class="card"><h3>Innovation & Commercialization</h3><p>IP creation, partnerships, investments, and venture commercialization.</p></div>
+    <div class="card"><strong>IT & Software</strong><br>Custom software & consulting.</div>
+    <div class="card"><strong>Cloud & AI</strong><br>Cloud migration, AI & analytics.</div>
+    <div class="card"><strong>EdTech</strong><br>E-learning platforms & training.</div>
+    <div class="card"><strong>SaaS & E-Commerce</strong><br>Scalable digital products.</div>
+    <div class="card"><strong>Retail Tech</strong><br>Omni-channel commerce.</div>
+    <div class="card"><strong>Innovation</strong><br>IP & digital ventures.</div>
   </div>
 </section>
 
-<section class="contact">
+<section id="contact">
   <h2>Contact Us</h2>
 
-  <!-- 🔁 REPLACE action URL WITH YOUR FORMSPREE LINK -->
+  <!-- 🔴 Replace abcdwxyz with your real Formspree ID -->
   <form action="https://formspree.io/f/xgoyavnv" method="POST">
+    <input type="hidden" name="_redirect" value="https://findour-services.com/?thanks=true">
     <input type="text" name="name" placeholder="Your Name" required>
     <input type="email" name="email" placeholder="Your Email" required>
     <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
     <button type="submit">Send Message</button>
   </form>
 
-  <p style="margin-top:15px;">
-    📧 bhopalsingh@findour-services.com<br>
-    📱 +91 8960482735
-  </p>
-</section>
+  <p>📧 bhopalsingh@findour-services.com</p>
 
-<section class="cta">
-  <h2>Let’s Build Your Digital Future</h2>
-  <p>Partner with us to transform ideas into scalable technology-driven businesses.</p>
-  <a href="https://wa.me/918960482735">Chat on WhatsApp</a>
+  <div class="social-links">
+    🔗 <a href="#" target="_blank">LinkedIn</a>
+    🔗 <a href="#" target="_blank">Facebook</a>
+    🔗 <a href="#" target="_blank">YouTube</a>
+  </div>
 </section>
 
 <footer>
-  © 2026 Findour Services Private Limited. All Rights Reserved.
+  © 2026 Findour Services. All Rights Reserved.
 </footer>
 
 </body>
