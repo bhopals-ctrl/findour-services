@@ -11,4 +11,9 @@
     <priority>0.6</priority>
   </url>
 
+  <url>
+    <loc>https://findour-services.com/projects/findour-healthai/</loc>
+    <priority>0.8</priority>
+  </url>
+
 </urlset>

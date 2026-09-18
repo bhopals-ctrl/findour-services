@@ -730,15 +730,15 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:56px 5% 
 
       <div class="cc">
         <div class="ch" style="background:linear-gradient(135deg,rgba(10,245,160,0.10),rgba(0,212,255,0.05));">
-          <div><h3 style="margin-top:8px;font-size:17px;">Cloud Cost Radar</h3></div>
-          <div class="ce">☁️</div>
+          <div><h3 style="margin-top:8px;font-size:17px;">Findour HealthAI</h3></div>
+          <div class="ce">🏥</div>
         </div>
         <div class="cb">
           <div class="cm"><span class="cd">⏱ Prototype</span><span class="cl">App</span></div>
-          <p style="font-size:13px;">A dashboard that merges AWS, GCP and Azure billing feeds into one unified, forecast-aware view —
-          aimed at mid-market finance and engineering leads.</p>
+          <p style="font-size:13px;">AI-assisted healthcare analytics and readmission-risk intelligence platform that transforms patient data into
+          explainable risk insights, cohort intelligence and actionable information for proactive care management.</p>
           <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;">
-            <a href="#" class="btn btn-outline" style="padding:8px 14px;font-size:13px;">View Project →</a>
+            <a href="projects/findour-healthai/" target="_blank" rel="noopener" class="btn btn-outline" style="padding:8px 14px;font-size:13px;">Launch Demo →</a>
           </div>
         </div>
       </div>
@@ -974,136 +974,134 @@ function showPage(name){
 function toggleMobileNav(){document.getElementById('mobileNav').classList.toggle('open');}
 
 // ═════════════════════════════════════════════════════════════════════════════
-// CONTACT FORM HANDLER
+// CONTACT FORM HANDLER  —  "Send Us a Message"
 // ─────────────────────────────────────────────────────────────────────────────
-// IMPORTANT: This site is a STATIC HTML site — there is no backend server
-// running here. That means this form CANNOT send real emails on its own.
+// This is a static site (GitHub Pages). There is no backend, so the form is
+// relayed by FormSubmit.co to bhopalsingh@findour-services.com.
 //
-// We handle that in two complementary ways:
+// WHY THE PREVIOUS VERSION DID NOT DELIVER
+//   It POSTed to  https://formsubmit.co/<email>  (the plain HTML endpoint).
+//   That endpoint does not return CORS headers, so the browser rejected the
+//   response and fetch() threw. The old .catch() then called onSuccess()
+//   anyway — so the page always showed "sent" whether or not anything was
+//   delivered. A real delivery failure was indistinguishable from success.
 //
-//   (1) FormSubmit.co — a free, no-backend email relay that POSTs the form
-//       fields to bhopalsingh@findour-services.com. This is what actually
-//       makes the form "send" in production.
+// WHAT CHANGED
+//   1. Uses the AJAX endpoint  https://formsubmit.co/ajax/<email>  which DOES
+//      send CORS headers and replies with JSON: {"success":"true", ...}.
+//      That makes real success and real failure distinguishable.
+//   2. Success is reported only when FormSubmit confirms it.
+//   3. Failure shows a retry message and keeps what the user typed.
+//   4. Technical detail goes to console.warn only, never to the visitor.
 //
-//   (2) mailto: fallback — if FormSubmit is blocked (ad-blockers, corporate
-//       networks, offline) we open the user's mail client pre-filled so the
-//       message still reaches Bhopal.
+// ONE-TIME ACTIVATION REQUIRED (this is almost certainly the original cause)
+//   FormSubmit will not deliver to an address until that address is confirmed.
+//   The FIRST submission triggers an "Activate Form" email to
+//   bhopalsingh@findour-services.com. Until the link in it is clicked, every
+//   submission is silently discarded by FormSubmit. Check that inbox (and its
+//   spam folder) and click the activation link once.
 //
-// HOW TO FIX / UPGRADE USING EmailJS:
-//   1. Sign up at https://www.emailjs.com and create an email service
-//      (Gmail, Outlook, custom SMTP) + an email template.
-//   2. Add the EmailJS SDK in <head>:
-//        <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"><\/script>   // (slash escaped so the HTML parser does NOT close this script block)
-//      and init it: emailjs.init({ publicKey: "YOUR_PUBLIC_KEY" });
-//   3. Replace the fetch(...) call below with:
-//        emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
-//          name:  fn + " " + ln,
-//          email: em,
-//          phone: ph,
-//          interest: int,
-//          message: msg
-//        });
-//   4. Remove the FormSubmit block. That's it — no server required.
-//
-// NOTE: Regardless of which provider you use (FormSubmit, EmailJS, Formspree,
-// Web3Forms, etc.) the form still needs a third-party because pure static
-// HTML can never deliver SMTP traffic directly.
+// OPTIONAL HARDENING
+//   After activation, FormSubmit issues a random endpoint like
+//   https://formsubmit.co/ajax/abc123def456... — swapping FORM_ENDPOINT to that
+//   keeps the address out of the page source. Purely cosmetic for privacy; the
+//   address is already published in the mailto: links on this page.
 // ═════════════════════════════════════════════════════════════════════════════
+var FORM_ENDPOINT = 'https://formsubmit.co/ajax/bhopalsingh@findour-services.com';
+
 function submitForm(ev){
-  // 1. Prevent default form submission (we handle it ourselves)
   if(ev && ev.preventDefault) ev.preventDefault();
 
-  // 2. Read + validate required fields
-  const fn=document.getElementById('fname').value.trim();
-  const ln=document.getElementById('lname').value.trim();
-  const em=document.getElementById('email').value.trim();
-  const ph=document.getElementById('phone').value.trim();
-  const int=document.getElementById('interest').value;
-  const msg=document.getElementById('message').value.trim();
+  var fn  = document.getElementById('fname').value.trim();
+  var ln  = document.getElementById('lname').value.trim();
+  var em  = document.getElementById('email').value.trim();
+  var ph  = document.getElementById('phone').value.trim();
+  var itr = document.getElementById('interest').value;
+  var msg = document.getElementById('message').value.trim();
 
-  if(!fn||!em){
+  // ── Validation ──
+  if(!fn || !em){
     showToast('⚠️ Please fill in your name and email.');
     gaEv('form_error',{form_name:'contact_form',error:'missing_fields'});
     return false;
   }
   if(!msg){
     showToast('⚠️ Please enter a message.');
+    gaEv('form_error',{form_name:'contact_form',error:'missing_message'});
     return false;
   }
-  // Very light email-format check
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){
     showToast('⚠️ Please enter a valid email address.');
+    gaEv('form_error',{form_name:'contact_form',error:'invalid_email'});
     return false;
   }
 
-  gaEv('form_submit',{form_name:'contact_form',service_interest:int||'not_specified',has_message:msg.length>0});
-  gaEv('generate_lead',{currency:'INR',value:0});
+  gaEv('form_submit',{form_name:'contact_form',service_interest:itr||'not_specified',has_message:true});
 
-  // 3. Swap the button to a loading state
-  const btn=document.querySelector('.btn-primary[onclick^="submitForm"]');
-  if(btn){btn.textContent='Sending…';btn.disabled=true;}
+  var btn = document.querySelector('.btn-primary[onclick^="submitForm"]');
+  var btnLabel = btn ? btn.textContent : 'Send Message →';
+  if(btn){ btn.textContent = 'Sending…'; btn.disabled = true; }
 
-  // 4. Primary path — FormSubmit.co relay
-  const formData=new FormData();
-  formData.append('name', fn+' '+ln);
-  formData.append('email', em);
-  formData.append('phone', ph||'Not provided');
-  formData.append('interest', int||'Not specified');
-  formData.append('message', msg);
-  formData.append('_subject', 'New Enquiry from Findour Website — '+fn+' '+ln);
-  formData.append('_captcha', 'false');
-  formData.append('_template', 'table');
-
-  // mailto: fallback — used if FormSubmit fails entirely
-  const mailtoFallback = function(){
-    const body = encodeURIComponent(
-      'Name: ' + fn + ' ' + ln + '\n' +
-      'Email: ' + em + '\n' +
-      'Phone: ' + (ph||'Not provided') + '\n' +
-      'Interest: ' + (int||'Not specified') + '\n\n' +
-      msg
-    );
-    const subject = encodeURIComponent('New Enquiry from Findour Website — ' + fn + ' ' + ln);
-    window.location.href = 'mailto:bhopalsingh@findour-services.com?subject=' + subject + '&body=' + body;
+  var payload = {
+    name:     fn + (ln ? ' ' + ln : ''),
+    email:    em,
+    phone:    ph  || 'Not provided',
+    interest: itr || 'Not specified',
+    message:  msg,
+    _subject: 'New Enquiry from Findour Website — ' + fn + (ln ? ' ' + ln : ''),
+    _captcha: 'false',
+    _template:'table'
   };
 
-  const onSuccess = function(){
-    // Required toast copy:
-    showToast('Your message has been sent to Bhopal Singh');
-    ['fname','lname','email','phone','interest','message'].forEach(id=>document.getElementById(id).value='');
+  var restore = function(){ if(btn){ btn.textContent = btnLabel; btn.disabled = false; } };
+
+  var succeeded = function(){
+    showToast('Thank you for contacting Findour Services. Your message has been sent successfully. We will get back to you shortly.', 6000);
+    gaEv('generate_lead',{currency:'INR',value:0});
+    ['fname','lname','email','phone','interest','message'].forEach(function(id){
+      document.getElementById(id).value = '';
+    });
+    restore();
   };
 
-  fetch('https://formsubmit.co/bhopalsingh@findour-services.com', {
-    method:'POST',
-    body: formData
+  var failed = function(reason){
+    // Visitor sees a plain retry message; detail stays in the console.
+    console.warn('[contact form] submission failed:', reason);
+    showToast("We couldn't send your message right now. Please try again.", 6000);
+    gaEv('form_error',{form_name:'contact_form',error:'delivery_failed'});
+    restore();   // input values deliberately kept so the visitor can retry
+  };
+
+  fetch(FORM_ENDPOINT, {
+    method:  'POST',
+    headers: { 'Content-Type':'application/json', 'Accept':'application/json' },
+    body:    JSON.stringify(payload)
   })
-  .then(res=>{
-    if(res.ok||res.status===200||res.type==='opaque'){
-      onSuccess();
-    } else {
-      // Server reachable but refused — open mailto as fallback
-      mailtoFallback();
-      showToast('Your message has been sent to Bhopal Singh');
-    }
+  .then(function(res){
+    return res.json().catch(function(){ return null; })
+      .then(function(data){ return { ok: res.ok, status: res.status, data: data }; });
   })
-  .catch(()=>{
-    // FormSubmit uses no-cors → even a success can look like a network error
-    // here. We still treat the submission as sent and surface the required toast.
-    onSuccess();
+  .then(function(r){
+    var ok = r.ok && r.data && String(r.data.success) === 'true';
+    if(ok){ succeeded(); }
+    else  { failed('HTTP ' + r.status + ' — ' + JSON.stringify(r.data)); }
   })
-  .finally(()=>{
-    if(btn){btn.textContent='Send Message →';btn.disabled=false;}
+  .catch(function(err){
+    // Network error, blocked by an extension, or offline.
+    failed(err && err.message ? err.message : err);
   });
 
   return false;
 }
 
-// Reusable toast helper — kept exactly to the signature asked for
-function showToast(message){
-  const toast = document.getElementById("toast");
+// Reusable toast helper
+function showToast(message, duration){
+  var toast = document.getElementById('toast');
+  if(!toast) return;
   toast.innerText = message;
-  toast.classList.add("show");
-  setTimeout(() => toast.classList.remove("show"), 3000);
+  toast.classList.add('show');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(function(){ toast.classList.remove('show'); }, duration || 3000);
 }
 
 // SCROLL NAV SHADOW
